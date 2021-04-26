@@ -1,7 +1,7 @@
 const w : number = window.innerWidth 
 const h : number = window.innerHeight 
-const parts : number = 4 
-const scGap : number = 0.02
+const parts : number = 5
+const scGap : number = 0.02/ parts 
 const strokeFactor : number = 90 
 const rFactor : number = 12.9 
 const sizeFactor : number = 3.9 
@@ -53,19 +53,21 @@ class DrawingUtil {
         const sf2 : number = ScaleUtil.divideScale(sf, 1, parts)
         const sf3 : number = ScaleUtil.divideScale(sf, 2, parts)
         const sf4 : number = ScaleUtil.divideScale(sf, 3, parts)
+        const y : number = -h / 2 + r + (h / 2 - 2 * r) * sf4
         context.save()
         context.translate(w / 2, h / 2)
         for (var j = 0; j < 2; j++) {
             context.save()
-            context.save()
             context.scale(1 - 2 * j, 1)
+            context.save()
             context.translate(-size, 0)
             context.rotate(sf2 * Math.PI / 2)
             DrawingUtil.drawLine(context, 0, 0, 0, -size * sf1)
             context.restore()
-            DrawingUtil.drawCircle(context, -size + r, -h / 2 + r + (h / 2 - 2 * r) * sf4, r * sf1)
+            DrawingUtil.drawCircle(context, -size + r, y, r * sf3)
             context.restore()
         }
+        DrawingUtil.drawCircle(context, 0, y, r * sf3)
         context.restore()
     }
 
