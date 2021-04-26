@@ -217,3 +217,25 @@ class VertLineBallHolder {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    vlbh : VertLineBallHolder = new VertLineBallHolder()
+    animator : Animator = new Animator()
+
+    render(context : CanvasRenderingContext2D) {
+        this.vlbh.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.vlbh.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.vlbh.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
